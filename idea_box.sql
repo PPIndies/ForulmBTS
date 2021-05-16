@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 06 mai 2021 à 00:38
+-- Généré le : lun. 17 mai 2021 à 00:21
 -- Version du serveur :  10.4.17-MariaDB
 -- Version de PHP : 8.0.1
 
@@ -76,7 +76,9 @@ INSERT INTO `f_messages` (`id`, `id_topic`, `id_posteur`, `date_heure_post`, `da
 (13, 6, 1, '2021-04-26 14:49:38', '0000-00-00 00:00:00', 0, 'dsqdaeza'),
 (14, 6, 1, '2021-04-27 23:41:59', '0000-00-00 00:00:00', 0, 'ouai daccord sa pue ca mere\r\n'),
 (15, 6, 1, '2021-04-27 23:44:49', '0000-00-00 00:00:00', 0, 'azaeza\r\neza\r\n'),
-(16, 6, 1, '2021-04-27 23:44:51', '0000-00-00 00:00:00', 0, 'ezaeza\r\n');
+(16, 6, 1, '2021-04-27 23:44:51', '0000-00-00 00:00:00', 0, 'ezaeza\r\n'),
+(17, 4, 1, '2021-05-07 01:06:03', '0000-00-00 00:00:00', 0, 'nique ta mere'),
+(18, 4, 1, '2021-05-07 01:39:32', '0000-00-00 00:00:00', 0, 'dsqdsqdqs');
 
 -- --------------------------------------------------------
 
@@ -141,7 +143,8 @@ INSERT INTO `f_topics` (`id`, `id_createur`, `sujet`, `contenu`, `date_heure_cre
 (3, 4, 'Oridnateur trop lent ', 'Il faudrait changer les ordinateur du poste PA400', '2021-04-24 12:49:15', 0, 0),
 (4, 4, 'Test premiere Idee ', 'faut opas metre le bac la ', '2021-04-24 14:04:31', 0, 0),
 (5, 1, 'vhjvhjv', 'nkj;nbk;,jn;,n;', '2021-04-25 23:06:18', 0, 1),
-(6, 1, 'La presse la elle ma niquer', 'Faite attention faus changer ca ', '2021-04-26 14:49:24', 0, 0);
+(6, 1, 'La presse la elle ma niquer', 'Faite attention faus changer ca ', '2021-04-26 14:49:24', 0, 0),
+(7, 1, 'dqsdsq', 'sqdqsdqsdqsd', '2021-05-07 01:39:41', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -164,7 +167,8 @@ INSERT INTO `f_topics_categories` (`id`, `id_topic`, `id_categorie`, `id_souscat
 (1, 3, 1, 4),
 (2, 4, 2, 7),
 (3, 5, 1, 3),
-(4, 6, 1, 3);
+(4, 6, 1, 3),
+(5, 7, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -187,7 +191,8 @@ INSERT INTO `user` (`id`, `mail`, `pseudo`, `motdepasse`) VALUES
 (1, 'pierre@gmail.com', 'Admin', '40bd001563085fc35165329ea1ff5c5ecbdbbeef'),
 (2, 'thomas@gmail.com', 'User', '7c4a8d09ca3762af61e59520943dc26494f8941b'),
 (3, 'matthieu@gmail.com', 'USer2', '7c4a8d09ca3762af61e59520943dc26494f8941b'),
-(4, 'Doryan@gmail.com', 'Doryan', '7c4a8d09ca3762af61e59520943dc26494f8941b');
+(4, 'Doryan@gmail.com', 'Doryan', '7c4a8d09ca3762af61e59520943dc26494f8941b'),
+(5, 'Adrien@gmail.com', 'Matthieu', '40bd001563085fc35165329ea1ff5c5ecbdbbeef');
 
 --
 -- Index pour les tables déchargées
@@ -203,31 +208,40 @@ ALTER TABLE `f_categories`
 -- Index pour la table `f_messages`
 --
 ALTER TABLE `f_messages`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_topic` (`id_topic`),
+  ADD KEY `id_posteur` (`id_posteur`);
 
 --
 -- Index pour la table `f_souscategories`
 --
 ALTER TABLE `f_souscategories`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_categorie` (`id_categorie`);
 
 --
 -- Index pour la table `f_suivis`
 --
 ALTER TABLE `f_suivis`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_topic` (`id_topic`);
 
 --
 -- Index pour la table `f_topics`
 --
 ALTER TABLE `f_topics`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_createur` (`id_createur`);
 
 --
 -- Index pour la table `f_topics_categories`
 --
 ALTER TABLE `f_topics_categories`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_topic` (`id_topic`),
+  ADD KEY `id_categorie` (`id_categorie`),
+  ADD KEY `id_souscategorie` (`id_souscategorie`);
 
 --
 -- Index pour la table `user`
@@ -249,7 +263,7 @@ ALTER TABLE `f_categories`
 -- AUTO_INCREMENT pour la table `f_messages`
 --
 ALTER TABLE `f_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT pour la table `f_souscategories`
@@ -267,19 +281,57 @@ ALTER TABLE `f_suivis`
 -- AUTO_INCREMENT pour la table `f_topics`
 --
 ALTER TABLE `f_topics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `f_topics_categories`
 --
 ALTER TABLE `f_topics_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `f_messages`
+--
+ALTER TABLE `f_messages`
+  ADD CONSTRAINT `f_messages_ibfk_1` FOREIGN KEY (`id_posteur`) REFERENCES `f_topics_categories` (`id`),
+  ADD CONSTRAINT `f_messages_ibfk_2` FOREIGN KEY (`id_topic`) REFERENCES `f_topics` (`id`);
+
+--
+-- Contraintes pour la table `f_souscategories`
+--
+ALTER TABLE `f_souscategories`
+  ADD CONSTRAINT `f_souscategories_ibfk_1` FOREIGN KEY (`id_categorie`) REFERENCES `f_categories` (`id`);
+
+--
+-- Contraintes pour la table `f_suivis`
+--
+ALTER TABLE `f_suivis`
+  ADD CONSTRAINT `f_suivis_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `f_suivis_ibfk_2` FOREIGN KEY (`id_topic`) REFERENCES `f_topics` (`id`);
+
+--
+-- Contraintes pour la table `f_topics`
+--
+ALTER TABLE `f_topics`
+  ADD CONSTRAINT `f_topics_ibfk_1` FOREIGN KEY (`id_createur`) REFERENCES `user` (`id`);
+
+--
+-- Contraintes pour la table `f_topics_categories`
+--
+ALTER TABLE `f_topics_categories`
+  ADD CONSTRAINT `f_topics_categories_ibfk_1` FOREIGN KEY (`id_categorie`) REFERENCES `f_categories` (`id`),
+  ADD CONSTRAINT `f_topics_categories_ibfk_2` FOREIGN KEY (`id_souscategorie`) REFERENCES `f_souscategories` (`id`),
+  ADD CONSTRAINT `f_topics_categories_ibfk_3` FOREIGN KEY (`id_topic`) REFERENCES `f_topics` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
